@@ -1,0 +1,18 @@
+{
+  "lab": 13,
+  "stage": "end_to_end_monitoring",
+  "status": "PASSED",
+  "production_version": "v20261108081243",
+  "checks": {
+    "training_dataset": true,
+    "production_model": true,
+    "model_registry": true,
+    "inference_report": true,
+    "performance_report": true
+  },
+  "previous_lab_reports_verified": 11,
+  "drift_monitoring": "EXECUTED",
+  "drift_comparison": "Two samples from the training dataset",
+  "drift_report": "reports/lab13_drift_report.json",
+  "generated_at": "2026-11-08T08:12:50.939721+00:00"
+}

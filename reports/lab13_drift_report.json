@@ -1,0 +1,83 @@
+{
+  "reference_file": "lab13_reference.csv",
+  "current_file": "lab13_current.csv",
+  "reference_rows": 500,
+  "current_rows": 500,
+  "psi_thresholds": {
+    "low_below": 0.1,
+    "moderate_below": 0.2
+  },
+  "features": [
+    {
+      "feature": "Warehouse_block",
+      "psi": 8.38691944007177e-05,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    },
+    {
+      "feature": "Mode_of_Shipment",
+      "psi": 0.017565279469065394,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    },
+    {
+      "feature": "Customer_care_calls",
+      "psi": 0.03854226012055443,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    },
+    {
+      "feature": "Customer_rating",
+      "psi": 0.01160920311090417,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    },
+    {
+      "feature": "Cost_of_the_Product",
+      "psi": 0.05138688129514665,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    },
+    {
+      "feature": "Prior_purchases",
+      "psi": 0.010333721522561713,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    },
+    {
+      "feature": "Product_importance",
+      "psi": 0.010921915500606092,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    },
+    {
+      "feature": "Gender",
+      "psi": 0.003140895858171581,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    },
+    {
+      "feature": "Discount_offered",
+      "psi": 0.02447493367176669,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    },
+    {
+      "feature": "Weight_in_gms",
+      "psi": 0.06620848469930361,
+      "drift_status": "low",
+      "reference_missing_rate": 0.0,
+      "current_missing_rate": 0.0
+    }
+  ],
+  "high_drift_features": []
+}

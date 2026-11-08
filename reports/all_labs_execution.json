@@ -1,0 +1,90 @@
+{
+  "project": "Shipment Prediction MLOps",
+  "generated_at": "2026-11-08T08:12:51.012967+00:00",
+  "python_version": "3.14.10 (tags/v3.14.10:b703b2c, Oct 25 2026, 17:36:52) [MSC v.1944 64 bit (AMD64)]",
+  "overall_status": "PASSED",
+  "total_labs": 13,
+  "passed": 13,
+  "failed": 0,
+  "not_run": 0,
+  "labs": [
+    {
+      "lab": 1,
+      "script": "01_load_data.py",
+      "status": "PASSED",
+      "duration_seconds": 0.91
+    },
+    {
+      "lab": 2,
+      "script": "02_validate_data.py",
+      "status": "PASSED",
+      "duration_seconds": 0.74
+    },
+    {
+      "lab": 3,
+      "script": "03_preprocessing.py",
+      "status": "PASSED",
+      "duration_seconds": 2.8
+    },
+    {
+      "lab": 4,
+      "script": "04_validate_outputs.py",
+      "status": "PASSED",
+      "duration_seconds": 2.04
+    },
+    {
+      "lab": 5,
+      "script": "05_train_registry.py",
+      "status": "PASSED",
+      "duration_seconds": 37.01
+    },
+    {
+      "lab": 6,
+      "script": "06_model_evaluation.py",
+      "status": "PASSED",
+      "duration_seconds": 0.75
+    },
+    {
+      "lab": 7,
+      "script": "07_quality_gate.py",
+      "status": "PASSED",
+      "duration_seconds": 0.15
+    },
+    {
+      "lab": 8,
+      "script": "08_automate_lifecycle.py",
+      "status": "PASSED",
+      "duration_seconds": 0.15
+    },
+    {
+      "lab": 9,
+      "script": "09_inference.py",
+      "status": "PASSED",
+      "duration_seconds": 2.02
+    },
+    {
+      "lab": 10,
+      "script": "10_failure_injection.py",
+      "status": "PASSED",
+      "duration_seconds": 0.71
+    },
+    {
+      "lab": 11,
+      "script": "11_prepare_deployment.py",
+      "status": "PASSED",
+      "duration_seconds": 0.18
+    },
+    {
+      "lab": 12,
+      "script": "12_api_performance_monitoring.py",
+      "status": "PASSED",
+      "duration_seconds": 2.28
+    },
+    {
+      "lab": 13,
+      "script": "13_end_to_end_monitoring.py",
+      "status": "PASSED",
+      "duration_seconds": 0.67
+    }
+  ]
+}

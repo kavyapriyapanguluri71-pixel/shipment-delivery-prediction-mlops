@@ -1,0 +1,11 @@
+{
+  "lab": 5,
+  "stage": "model_training_and_registration",
+  "status": "PASSED",
+  "registry_type": "local_file_registry",
+  "model_version": "v20261108081243",
+  "registered_artifact": "models/registry/v20261108081243/shipments_pipeline.joblib",
+  "registry_file": "models/registry.json",
+  "artifact_size_bytes": 87565,
+  "generated_at": "2026-11-08T08:12:43.779728+00:00"
+}

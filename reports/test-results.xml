@@ -1,1 +1,1741 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="20" time="8.612" timestamp="2026-11-08T10:34:02.435321+05:30" hostname="kavyapriya"><testcase classname="tests.test_api" name="test_health_and_prediction_log_only_metadata" time="0.057" /><testcase classname="tests.test_api" name="test_api_rejects_unknown_input_fields" time="0.013" /><testcase classname="tests.test_api" name="test_api_rejects_missing_and_out_of_range_features" time="0.026" /><testcase classname="tests.test_inference_monitoring" name="test_summary_reports_request_prediction_probability_and_latency_metrics" time="0.016" /><testcase classname="tests.test_inference_monitoring" name="test_summary_accepts_legacy_records_without_latency" time="0.006" /><testcase classname="tests.test_inference_monitoring" name="test_summary_rejects_invalid_log_records[{&quot;prediction&quot;: 1, &quot;late_probability&quot;: 1.2}-Invalid late_probability]" time="0.008" /><testcase classname="tests.test_inference_monitoring" name="test_summary_rejects_invalid_log_records[{&quot;prediction&quot;: 1, &quot;late_probability&quot;: 0.5, &quot;latency_ms&quot;: -1}-Invalid latency_ms]" time="0.005" /><testcase classname="tests.test_inference_monitoring" name="test_summary_rejects_invalid_log_records[not-json-Invalid JSON]" time="0.005" /><testcase classname="tests.test_inference_monitoring" name="test_summary_rejects_missing_and_empty_logs" time="0.006" /><testcase classname="tests.test_monitoring" name="test_psi_is_zero_for_identical_distributions" time="0.018" /><testcase classname="tests.test_monitoring" name="test_psi_detects_shift_and_status_thresholds" time="0.004" /><testcase classname="tests.test_monitoring" name="test_compare_batches_reports_and_saves_feature_drift" time="0.066" /><testcase classname="tests.test_monitoring" name="test_drift_monitor_rejects_missing_columns_and_nonfinite_values" time="0.024" /><testcase classname="tests.test_pipeline" name="test_training_data_schema_and_labels" time="0.008" /><testcase classname="tests.test_pipeline" name="test_pipeline_fits_and_predicts_without_id" time="0.094" /><testcase classname="tests.test_validation_and_model_loader" name="test_load_model_reads_valid_pipeline_artifact" time="0.010" /><testcase classname="tests.test_validation_and_model_loader" name="test_load_model_rejects_missing_or_invalid_artifact" time="0.004" /><testcase classname="tests.test_validation_and_model_loader" name="test_load_training_data_rejects_missing_columns" time="0.014" /><testcase classname="tests.test_validation_and_model_loader" name="test_load_training_data_rejects_non_numeric_feature_and_bad_labels" time="0.024" /><testcase classname="tests.test_validation_and_model_loader" name="test_training_input_schema_contains_all_shipment_fields" time="0.009" /></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="15" failures="0" skipped="0" tests="20" time="7.479" timestamp="2026-11-08T13:08:58.544085+05:30" hostname="kavyapriya"><testcase classname="tests.test_api" name="test_health_and_prediction_log_only_metadata" time="0.002"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6A0D640&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_api" name="test_api_rejects_unknown_input_fields" time="0.002"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6AC9D20&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_api" name="test_api_rejects_missing_and_out_of_range_features" time="0.001"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6ACA2A0&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_inference_monitoring" name="test_summary_reports_request_prediction_probability_and_latency_metrics" time="0.002"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6ACA8D0&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_inference_monitoring" name="test_summary_accepts_legacy_records_without_latency" time="0.001"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6ACAF00&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_inference_monitoring" name="test_summary_rejects_invalid_log_records[{&quot;prediction&quot;: 1, &quot;late_probability&quot;: 1.2}-Invalid late_probability]" time="0.001"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6ACB740&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_inference_monitoring" name="test_summary_rejects_invalid_log_records[{&quot;prediction&quot;: 1, &quot;late_probability&quot;: 0.5, &quot;latency_ms&quot;: -1}-Invalid latency_ms]" time="0.001"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6ACBD70&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_inference_monitoring" name="test_summary_rejects_invalid_log_records[not-json-Invalid JSON]" time="0.001"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6CF0510&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_inference_monitoring" name="test_summary_rejects_missing_and_empty_logs" time="0.002"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6CF0B40&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_monitoring" name="test_psi_is_zero_for_identical_distributions" time="0.008" /><testcase classname="tests.test_monitoring" name="test_psi_detects_shift_and_status_thresholds" time="0.007" /><testcase classname="tests.test_monitoring" name="test_compare_batches_reports_and_saves_feature_drift" time="0.002"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6CF17A0&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_monitoring" name="test_drift_monitor_rejects_missing_columns_and_nonfinite_values" time="0.001"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6ACAFB0&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_pipeline" name="test_training_data_schema_and_labels" time="0.015" /><testcase classname="tests.test_pipeline" name="test_pipeline_fits_and_predicts_without_id" time="0.070" /><testcase classname="tests.test_validation_and_model_loader" name="test_load_model_reads_valid_pipeline_artifact" time="0.001"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6D89590&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_validation_and_model_loader" name="test_load_model_rejects_missing_or_invalid_artifact" time="0.001"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6D890C0&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_validation_and_model_loader" name="test_load_training_data_rejects_missing_columns" time="0.001"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6D89FE0&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_validation_and_model_loader" name="test_load_training_data_rejects_non_numeric_feature_and_bad_labels" time="0.002"><error message="failed on setup with &quot;PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'&quot;">path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp', dir_fd = None
+onexc = &lt;function rmtree.&lt;locals&gt;.onexc at 0x00000250B6D8A770&gt;
+
+    def _rmtree_unsafe(path, dir_fd, onexc):
+        if dir_fd is not None:
+            raise NotImplementedError("dir_fd unavailable on this platform")
+        try:
+            st = os.lstat(path)
+        except OSError as err:
+            onexc(os.lstat, path, err)
+            return
+        try:
+            if _rmtree_islink(st):
+                # symlinks to directories are forbidden, see bug #1669
+                raise OSError("Cannot call rmtree on a symbolic link")
+        except OSError as err:
+            onexc(os.path.islink, path, err)
+            # can't continue even if onexc hook returns
+            return
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+&gt;           os.rmdir(path)
+E           PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:707: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None,
+               _onexc_kwargs=False):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args, **kwargs):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args, **kwargs):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args, **kwargs):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args, **kwargs):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+        elif not _onexc_kwargs:
+            # Only the internal caller in tempfile asks for the extra arguments.
+            _onexc = onexc
+            def onexc(func, path, err, **kwargs):
+                return _onexc(func, path, err)
+    
+&gt;       _rmtree_impl(path, dir_fd, onexc)
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:859: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:711: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = &lt;built-in function rmdir&gt;
+path = '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+err = PermissionError(13, 'Access is denied'), kwargs = {}
+
+    def onexc(func, path, err, **kwargs):
+&gt;       return _onexc(func, path, err)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Access is denied: '\\\\?\\C:\\Users\\pkavy\\OneDrive\\Desktop\\kavya-9849\\ML\\reports\\.pytest-tmp'
+
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\shutil.py:857: PermissionError</error></testcase><testcase classname="tests.test_validation_and_model_loader" name="test_training_input_schema_contains_all_shipment_fields" time="0.016" /></testsuite></testsuites>

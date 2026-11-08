@@ -1,0 +1,89 @@
+{
+  "model_name": "shipment_prediction",
+  "versions": [
+    {
+      "version": "v20261108080237",
+      "status": "ARCHIVED",
+      "artifact": "models/registry/v20261108080237/shipments_pipeline.joblib",
+      "source_artifact": "models/shipments_pipeline.joblib",
+      "dataset": "Train.csv",
+      "metadata": {
+        "model": "GradientBoosting",
+        "created_at": "2026-11-08T08:02:37.212521+00:00",
+        "source_file": "Train.csv",
+        "source_sha256": "dcdc3fd8f0507ec400174ef70d88d634321cc2ce8f4ea11bf4e8c847fdd325b3",
+        "target_column": "Reached.on.Time_Y.N",
+        "positive_class": 1,
+        "positive_class_meaning": "late shipment",
+        "feature_columns": [
+          "Warehouse_block",
+          "Mode_of_Shipment",
+          "Customer_care_calls",
+          "Customer_rating",
+          "Cost_of_the_Product",
+          "Prior_purchases",
+          "Product_importance",
+          "Gender",
+          "Discount_offered",
+          "Weight_in_gms"
+        ],
+        "best_parameters": {
+          "classifier__learning_rate": 0.05,
+          "classifier__max_depth": 2,
+          "classifier__n_estimators": 100
+        },
+        "test_metrics": {
+          "accuracy": 0.6781818181818182,
+          "precision": 0.9521674140508222,
+          "recall": 0.48514851485148514,
+          "f1": 0.6427850655903128,
+          "roc_auc": 0.7591447419826537
+        }
+      },
+      "registered_at": "2026-11-08T08:02:37.215447+00:00"
+    },
+    {
+      "version": "v20261108081243",
+      "status": "PRODUCTION",
+      "artifact": "models/registry/v20261108081243/shipments_pipeline.joblib",
+      "source_artifact": "models/shipments_pipeline.joblib",
+      "dataset": "Train.csv",
+      "metadata": {
+        "model": "GradientBoosting",
+        "created_at": "2026-11-08T08:12:43.776815+00:00",
+        "source_file": "Train.csv",
+        "source_sha256": "dcdc3fd8f0507ec400174ef70d88d634321cc2ce8f4ea11bf4e8c847fdd325b3",
+        "target_column": "Reached.on.Time_Y.N",
+        "positive_class": 1,
+        "positive_class_meaning": "late shipment",
+        "feature_columns": [
+          "Warehouse_block",
+          "Mode_of_Shipment",
+          "Customer_care_calls",
+          "Customer_rating",
+          "Cost_of_the_Product",
+          "Prior_purchases",
+          "Product_importance",
+          "Gender",
+          "Discount_offered",
+          "Weight_in_gms"
+        ],
+        "best_parameters": {
+          "classifier__learning_rate": 0.05,
+          "classifier__max_depth": 2,
+          "classifier__n_estimators": 100
+        },
+        "test_metrics": {
+          "accuracy": 0.6781818181818182,
+          "precision": 0.9521674140508222,
+          "recall": 0.48514851485148514,
+          "f1": 0.6427850655903128,
+          "roc_auc": 0.7591447419826537
+        }
+      },
+      "registered_at": "2026-11-08T08:12:43.779728+00:00"
+    }
+  ],
+  "production_version": "v20261108081243",
+  "updated_at": "2026-11-08T08:12:45.149955+00:00"
+}

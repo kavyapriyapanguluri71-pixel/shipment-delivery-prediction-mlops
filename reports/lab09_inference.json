@@ -1,0 +1,13 @@
+{
+  "lab": 9,
+  "stage": "model_inference",
+  "status": "PASSED",
+  "model_version": "v20261108081243",
+  "prediction": 1,
+  "prediction_label": "Late shipment",
+  "late_probability": 0.9869495994888328,
+  "actual_label": 1,
+  "actual_label_meaning": "Late shipment",
+  "prediction_matches_actual": true,
+  "generated_at": "2026-11-08T08:12:46.885074+00:00"
+}

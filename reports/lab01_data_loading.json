@@ -1,0 +1,32 @@
+{
+  "lab": 1,
+  "stage": "data_loading",
+  "status": "PASSED",
+  "dataset": "Train.csv",
+  "rows": 10999,
+  "columns": 12,
+  "column_names": [
+    "ID",
+    "Warehouse_block",
+    "Mode_of_Shipment",
+    "Customer_care_calls",
+    "Customer_rating",
+    "Cost_of_the_Product",
+    "Prior_purchases",
+    "Product_importance",
+    "Gender",
+    "Discount_offered",
+    "Weight_in_gms",
+    "Reached.on.Time_Y.N"
+  ],
+  "target_column": "Reached.on.Time_Y.N",
+  "target_distribution": {
+    "1": 6563,
+    "0": 4436
+  },
+  "duplicate_ids": 0,
+  "missing_values_total": 0,
+  "file_size_bytes": 440462,
+  "sha256": "dcdc3fd8f0507ec400174ef70d88d634321cc2ce8f4ea11bf4e8c847fdd325b3",
+  "generated_at": "2026-11-08T08:12:01.403315+00:00"
+}

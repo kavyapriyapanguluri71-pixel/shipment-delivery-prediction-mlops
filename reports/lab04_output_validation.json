@@ -1,0 +1,19 @@
+{
+  "lab": 4,
+  "stage": "preprocessing_output_validation",
+  "status": "PASSED",
+  "training_shape": [
+    8799,
+    19
+  ],
+  "testing_shape": [
+    2200,
+    19
+  ],
+  "training_target_rows": 8799,
+  "testing_target_rows": 2200,
+  "missing_values": 0,
+  "numeric_values_finite": true,
+  "preprocessor_artifact_valid": true,
+  "generated_at": "2026-11-08T08:12:06.795501+00:00"
+}

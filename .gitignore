@@ -54,3 +54,8 @@ mlruns/
 reports/.pytest-tmp/
 
 # Keep the trained model artifacts in models/ and useful reports in reports/.
+
+# Generated lab data and notebook checkpoints
+.ipynb_checkpoints/
+outputs/lab03/
+outputs/lab13_*.csv

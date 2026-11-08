@@ -1,0 +1,28 @@
+{
+  "lab": 2,
+  "stage": "data_validation",
+  "status": "PASSED",
+  "dataset": "Train.csv",
+  "rows": 10999,
+  "required_columns_present": true,
+  "missing_values": 0,
+  "duplicate_ids": 0,
+  "numeric_columns_finite": {
+    "Customer_care_calls": true,
+    "Customer_rating": true,
+    "Cost_of_the_Product": true,
+    "Prior_purchases": true,
+    "Discount_offered": true,
+    "Weight_in_gms": true
+  },
+  "target_column": "Reached.on.Time_Y.N",
+  "target_classes": [
+    0,
+    1
+  ],
+  "target_distribution": {
+    "1": 6563,
+    "0": 4436
+  },
+  "generated_at": "2026-11-08T08:12:02.163318+00:00"
+}

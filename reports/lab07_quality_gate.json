@@ -1,0 +1,35 @@
+{
+  "lab": 7,
+  "stage": "model_quality_gate",
+  "model": "GradientBoosting",
+  "status": "PASSED",
+  "overall_quality_gate": true,
+  "checks": {
+    "accuracy": {
+      "actual": 0.6781818181818182,
+      "minimum_required": 0.6,
+      "passed": true
+    },
+    "precision": {
+      "actual": 0.9521674140508222,
+      "minimum_required": 0.7,
+      "passed": true
+    },
+    "recall": {
+      "actual": 0.48514851485148514,
+      "minimum_required": 0.4,
+      "passed": true
+    },
+    "f1": {
+      "actual": 0.6427850655903128,
+      "minimum_required": 0.5,
+      "passed": true
+    },
+    "roc_auc": {
+      "actual": 0.7591447419826537,
+      "minimum_required": 0.65,
+      "passed": true
+    }
+  },
+  "generated_at": "2026-11-08T08:12:45.001847+00:00"
+}

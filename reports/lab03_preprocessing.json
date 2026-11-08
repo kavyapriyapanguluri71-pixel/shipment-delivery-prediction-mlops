@@ -1,0 +1,23 @@
+{
+  "lab": 3,
+  "stage": "data_preprocessing",
+  "status": "PASSED",
+  "original_rows": 10999,
+  "training_rows": 8799,
+  "testing_rows": 2200,
+  "original_features": 10,
+  "processed_features": 19,
+  "train_shape": [
+    8799,
+    19
+  ],
+  "test_shape": [
+    2200,
+    19
+  ],
+  "scaling": "StandardScaler",
+  "categorical_encoding": "OneHotEncoder",
+  "random_state": 42,
+  "preprocessor": "models/shipment_preprocessor.joblib",
+  "generated_at": "2026-11-08T08:12:04.714963+00:00"
+}

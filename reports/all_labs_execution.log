@@ -1,0 +1,252 @@
+
+=================================================================
+LAB 1: 01_load_data.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 1: SHIPMENT DATA LOADING
+============================================================
+Dataset loaded: Train.csv
+Dataset shape: (10999, 12)
+Target distribution: {'1': 6563, '0': 4436}
+SHA-256: dcdc3fd8f0507ec400174ef70d88d634321cc2ce8f4ea11bf4e8c847fdd325b3
+Report saved: reports\lab01_data_loading.json
+[SUCCESS] LAB 1 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 2: 02_validate_data.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 2: SHIPMENT DATA VALIDATION
+============================================================
+Rows validated: 10999
+Required columns: 12
+Duplicate IDs: 0
+Missing values: 0
+Report saved: reports\lab02_validation.json
+[SUCCESS] LAB 2 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 3: 03_preprocessing.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 3: SHIPMENT DATA PREPROCESSING
+============================================================
+Training rows: 8799
+Testing rows: 2200
+Processed features: 19
+Training output: (8799, 19)
+Testing output: (2200, 19)
+Report saved: reports\lab03_preprocessing.json
+[SUCCESS] LAB 3 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 4: 04_validate_outputs.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 4: PREPROCESSING OUTPUT VALIDATION
+============================================================
+Training features: (8799, 19)
+Testing features: (2200, 19)
+Training target rows: 8799
+Testing target rows: 2200
+Missing values: 0
+Numeric values: finite
+Preprocessor artifact: valid
+Report saved: reports\lab04_output_validation.json
+[SUCCESS] LAB 4 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 5: 05_train_registry.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 5: MODEL TRAINING AND REGISTRATION
+============================================================
+Model artifact: models\shipments_pipeline.joblib
+Registered version: v20261108081243
+Registered artifact: models\registry\v20261108081243\shipments_pipeline.joblib
+Registry file: models\registry.json
+Report saved: reports\lab05_model_registry.json
+[SUCCESS] LAB 5 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 6: 06_model_evaluation.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 6: SHIPMENT MODEL EVALUATION
+============================================================
+Selected model: GradientBoosting
+ACCURACY: 0.6782
+PRECISION: 0.9522
+RECALL: 0.4851
+F1: 0.6428
+ROC_AUC: 0.7591
+Compared models: 4
+Evaluation plots and reports: verified
+Report saved: reports\lab06_model_evaluation.json
+[SUCCESS] LAB 6 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 7: 07_quality_gate.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 7: MODEL QUALITY GATE
+============================================================
+ACCURACY: 0.6782 (minimum 0.60) - PASS
+PRECISION: 0.9522 (minimum 0.70) - PASS
+RECALL: 0.4851 (minimum 0.40) - PASS
+F1: 0.6428 (minimum 0.50) - PASS
+ROC_AUC: 0.7591 (minimum 0.65) - PASS
+Report saved: reports\lab07_quality_gate.json
+[SUCCESS] LAB 7 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 8: 08_automate_lifecycle.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 8: MODEL LIFECYCLE AUTOMATION
+============================================================
+Promoted model: v20261108081243
+Production status: PRODUCTION
+Registry updated: models\registry.json
+Report saved: reports\lab08_lifecycle.json
+[SUCCESS] LAB 8 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 9: 09_inference.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 9: SHIPMENT MODEL INFERENCE
+============================================================
+Production version: v20261108081243
+Prediction: Late shipment
+Late probability: 0.9869
+Actual label: Late shipment
+Report saved: reports\lab09_inference.json
+[SUCCESS] LAB 9 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 10: 10_failure_injection.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 10: FAILURE HANDLING AND RECOVERY
+============================================================
+Missing dataset: detected
+Invalid dataset schema: detected
+Missing model artifact: detected
+Report saved: reports\lab10_failure_handling.json
+[SUCCESS] LAB 10 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 11: 11_prepare_deployment.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 11: DEPLOYMENT VERIFICATION
+============================================================
+dockerfile: FOUND
+docker_verification_script: FOUND
+kubernetes_verification_script: FOUND
+production_model: FOUND
+model_registry: FOUND
+api_application: FOUND
+Production version: v20261108081243
+Deployment prerequisites: verified
+Docker/Kubernetes runtime tests: not run by this lab
+Report saved: reports\lab11_deployment_verification.json
+[SUCCESS] LAB 11 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 12: 12_api_performance_monitoring.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 12: API PERFORMANCE MONITORING
+============================================================
+Model version: v20261108081243
+Requests tested: 100
+Successful predictions: 100
+Average latency: 4.420 ms
+P95 latency: 5.988 ms
+Maximum latency: 25.381 ms
+Report saved: reports\lab12_api_performance.json
+[SUCCESS] LAB 12 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+
+
+=================================================================
+LAB 13: 13_end_to_end_monitoring.py
+STATUS: PASSED
+=================================================================
+============================================================
+LAB 13: END-TO-END MONITORING
+============================================================
+training_dataset: FOUND
+production_model: FOUND
+model_registry: FOUND
+inference_report: FOUND
+performance_report: FOUND
+Production version: v20261108081243
+Previous lab reports verified: 11
+Drift monitoring: executed
+Final report saved: reports\lab13_end_to_end_monitoring.json
+[SUCCESS] LAB 13 PASSED
+
+--- STDERR ---
+Could not find platform independent libraries <prefix>
+

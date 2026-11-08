@@ -1,0 +1,24 @@
+{
+  "lab": 6,
+  "stage": "model_evaluation",
+  "status": "PASSED",
+  "selected_model": "GradientBoosting",
+  "test_metrics": {
+    "accuracy": 0.6781818181818182,
+    "precision": 0.9521674140508222,
+    "recall": 0.48514851485148514,
+    "f1": 0.6427850655903128,
+    "roc_auc": 0.7591447419826537
+  },
+  "model_comparison_rows": 4,
+  "evaluation_artifacts_verified": [
+    "models/shipments_pipeline.joblib",
+    "outputs/final_metrics.json",
+    "outputs/model_comparison.csv",
+    "outputs/confusion_matrix.png",
+    "outputs/roc_curve.png",
+    "outputs/feature_importance.csv",
+    "outputs/feature_importance.png"
+  ],
+  "generated_at": "2026-11-08T08:12:44.767985+00:00"
+}

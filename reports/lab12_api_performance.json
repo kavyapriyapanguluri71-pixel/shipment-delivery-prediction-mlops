@@ -1,0 +1,14 @@
+{
+  "lab": 12,
+  "stage": "api_performance_monitoring",
+  "status": "PASSED",
+  "model_version": "v20261108081243",
+  "requests_tested": 100,
+  "successful_predictions": 100,
+  "average_latency_ms": 4.420423999545164,
+  "p95_latency_ms": 5.987500015180558,
+  "maximum_latency_ms": 25.38119998644106,
+  "late_predictions": 100,
+  "on_time_predictions": 0,
+  "generated_at": "2026-11-08T08:12:50.135880+00:00"
+}
