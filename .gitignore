@@ -1,0 +1,56 @@
+# Python environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode, caches, test coverage and generated package metadata
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# IDE and editor state
+.idea/
+.vscode/
+.vs/
+*.suo
+*.user
+*.swp
+*.swo
+*~
+
+# Local environment files and credentials
+.env
+.env.*
+!.env.example
+secrets/
+credentials/
+credentials.json
+service-account*.json
+id_rsa*
+id_ed25519*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+
+# Temporary files and local runtime data
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+logs/
+mlruns/
+reports/.pytest-tmp/
+
+# Keep the trained model artifacts in models/ and useful reports in reports/.

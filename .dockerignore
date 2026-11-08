@@ -1,0 +1,12 @@
+.git
+.venv
+venv
+__pycache__
+.pytest_cache
+tests
+outputs
+logs
+Train.csv
+*.ipynb
+*.docx
+*.py[cod]

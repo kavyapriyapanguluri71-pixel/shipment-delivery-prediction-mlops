@@ -1,0 +1,17 @@
+{
+  "num_cols": [
+    "ID",
+    "Customer_care_calls",
+    "Customer_rating",
+    "Cost_of_the_Product",
+    "Prior_purchases",
+    "Discount_offered",
+    "Weight_in_gms"
+  ],
+  "cat_cols": [
+    "Warehouse_block",
+    "Mode_of_Shipment",
+    "Product_importance",
+    "Gender"
+  ]
+}

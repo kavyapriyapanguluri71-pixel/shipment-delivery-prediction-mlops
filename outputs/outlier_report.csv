@@ -1,0 +1,8 @@
+feature,lower,upper,n_outliers_train
+ID,-5518.5,16433.5,0
+Customer_care_calls,0.0,8.0,0
+Customer_rating,-1.0,7.0,0
+Cost_of_the_Product,48.5,372.5,0
+Prior_purchases,1.5,5.5,825
+Discount_offered,-5.0,19.0,1776
+Weight_in_gms,-2972.5,9855.5,0

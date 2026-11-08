@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: pip install -e ".[dev]"
+      - name: Run tests and generate reports
+        run: python scripts/run_tests.py
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shipment-project-test-report
+          path: |
+            reports/test_report.md
+            reports/test-results.xml
+      - name: Build API container
+        run: docker build --tag shipment-prediction-api:ci .
+      - name: Verify API container
+        run: python scripts/verify_docker.py --image shipment-prediction-api:ci

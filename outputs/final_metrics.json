@@ -1,0 +1,53 @@
+{
+  "accuracy": 0.6781818181818182,
+  "precision": 0.9521674140508222,
+  "recall": 0.48514851485148514,
+  "f1": 0.6427850655903128,
+  "roc_auc": 0.7591447419826537,
+  "positive_class": 1,
+  "positive_class_meaning": "late shipment",
+  "selected_model": "GradientBoosting",
+  "best_parameters": {
+    "classifier__learning_rate": 0.05,
+    "classifier__max_depth": 2,
+    "classifier__n_estimators": 100
+  },
+  "test_rows": 2200,
+  "confusion_matrix": [
+    [
+      855,
+      32
+    ],
+    [
+      676,
+      637
+    ]
+  ],
+  "classification_report": {
+    "on_time": {
+      "precision": 0.558458523840627,
+      "recall": 0.963923337091319,
+      "f1-score": 0.707196029776675,
+      "support": 887.0
+    },
+    "late": {
+      "precision": 0.9521674140508222,
+      "recall": 0.48514851485148514,
+      "f1-score": 0.6427850655903128,
+      "support": 1313.0
+    },
+    "accuracy": 0.6781818181818182,
+    "macro avg": {
+      "precision": 0.7553129689457245,
+      "recall": 0.7245359259714022,
+      "f1-score": 0.6749905476834939,
+      "support": 2200.0
+    },
+    "weighted avg": {
+      "precision": 0.7934311478615298,
+      "recall": 0.6781818181818182,
+      "f1-score": 0.6687543952418142,
+      "support": 2200.0
+    }
+  }
+}

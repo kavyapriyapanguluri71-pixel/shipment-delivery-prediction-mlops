@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipment-prediction-api
+  labels:
+    app: shipment-prediction-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shipment-prediction-api
+  template:
+    metadata:
+      labels:
+        app: shipment-prediction-api
+    spec:
+      containers:
+        - name: api
+          image: shipment-prediction-api:verify
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          env:
+            - name: MODEL_PATH
+              value: /app/models/shipments_pipeline.joblib
+            - name: INFERENCE_LOG_PATH
+              value: /tmp/inference_log.jsonl
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 12
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
